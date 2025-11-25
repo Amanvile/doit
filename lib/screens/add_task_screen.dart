@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:do_it/model/task_data.dart';
+import 'package:provider/provider.dart';
 
 class AddTaskScreen extends StatelessWidget {
-  final myController = TextEditingController();
-  late String? task;
-  final void Function(String) onchange;
-   AddTaskScreen({super.key,required this.onchange,this.task});
+
+   String taskTitle= '';
+
 
 
   @override
@@ -28,8 +29,8 @@ class AddTaskScreen extends StatelessWidget {
             ),
           ),
           TextField(
-            onChanged: (String ){task=myController.text;},
-            controller: myController,
+            onChanged: (newText ){taskTitle=newText;},
+
             decoration: InputDecoration(
               hintText: 'Enter Task',
               hintStyle: TextStyle(color: Colors.lightBlueAccent.shade100),
@@ -39,7 +40,11 @@ class AddTaskScreen extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              onchange(task!);
+              if(taskTitle!=''){
+                Provider.of<TaskData>(context, listen: false).taskAdd(
+                    taskTitle);
+              }
+              Navigator.pop(context);
             },
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all(Colors.lightBlueAccent),

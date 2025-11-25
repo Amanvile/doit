@@ -1,37 +1,12 @@
+import 'package:do_it/model/task_data.dart';
 import 'package:flutter/material.dart';
 import 'package:do_it/widgets/task_list.dart';
 import 'package:do_it/screens/add_task_screen.dart';
-import 'package:do_it/model/Task.dart';
+import 'package:do_it/model/task.dart';
+import 'package:provider/provider.dart';
 
 
-class TaskScreen extends StatefulWidget {
-  @override
-  State<TaskScreen> createState() => _TaskScreenState();
-}
-
-class _TaskScreenState extends State<TaskScreen> {
-
-
-  List <Task> tasks=[
-    // Task(name: 'Buy milk'),
-    // Task(name: 'Buy eggs'),
-    // Task(name: 'Buy bread'),
-    // Task(name: 'Buy butter'),
-    // Task(name: 'Buy cheese'),
-  ];
-
-  late Object rem=tasks.length>0?tasks.iterator:0;
-  void taskAdd(String newTask){
-    // print(rem);
-    setState(() {
-      tasks.add(Task(name: newTask));
-      // print(tasks.length);
-      // print(newTask);
-      Navigator.pop(context);
-      // print(tasks.length);
-    });
-
-  }
+class TaskScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +15,7 @@ class _TaskScreenState extends State<TaskScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.lightBlueAccent,
         onPressed: (){
-          showModalBottomSheet(context: context, builder: (context)=> AddTaskScreen(onchange:taskAdd));
+          showModalBottomSheet(context: context, builder: (context)=> AddTaskScreen());
         },
         child: Icon(Icons.add, color: Colors.white,size: 30)
 
@@ -68,7 +43,7 @@ class _TaskScreenState extends State<TaskScreen> {
                   color: Colors.white,
                 ),
               ),
-              Text('tasks '+tasks.length.toString(), style: TextStyle(color: Colors.white)),
+              Text('tasks ${Provider.of<TaskData>(context).countTask}', style: TextStyle(color: Colors.white)),
 
             ],
           ),
@@ -78,7 +53,7 @@ class _TaskScreenState extends State<TaskScreen> {
               padding: EdgeInsets.symmetric(horizontal: 20),
               decoration:BoxDecoration( color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
               height:300,
-              child: TaskList(tasks: tasks),
+              child: TaskList(),
             ),
           )],
       ),
